@@ -71,8 +71,8 @@
 
     <script>
         // Elementos
-        const tareaInput = document.querySelector('.tareas input');
-        const boton = document.querySelector('.tareas button');
+        const tareaInput = document.querySelector('input');
+        const boton = document.querySelector('button');
         const ul = document.createElement("ul");
 
         // Obtener tareas desde localStorage al cargar la página
@@ -101,31 +101,31 @@
             li.textContent = tarea;
 
             // Botón para eliminar la tarea
-            const deleteBtn = document.createElement("button");
-            deleteBtn.textContent = "Eliminar";
-            deleteBtn.addEventListener("click", () => {
+            const deleteB = document.createElement("button");
+            deleteB.textContent = "Eliminar";
+            deleteB.addEventListener("click", () => {
                 li.remove();
                 eliminarTarea(tarea);
             });
 
-            li.appendChild(deleteBtn);
+            li.appendChild(deleteB);
             ul.appendChild(li);
-        }
+        };
 
         // Función para añadir una tarea al localStorage
         function tareasAdd(tarea) {
             tasks.push(tarea);
             localStorage.setItem('tasks', JSON.stringify(tasks));
-        }
+        };
 
         // Función para eliminar una tarea de localStorage
         function eliminarTarea(tarea) {
-            const index = tasks.indexOf(tarea);
-            if (index > -1) {
-                tasks.splice(index, 1);
+            const tareaIndex = tasks.indexOf(tarea);
+            if (tareaIndex > -1) {
+                tasks.splice(tareaIndex , 1);
                 localStorage.setItem('tasks', JSON.stringify(tasks));
-            }
-        }
+            };
+        };
     </script>
 </body>
 
