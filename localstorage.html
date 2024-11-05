@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        *{
+        * {
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
-        :root{
+
+        :root {
             --azulea: rgb(14 32 249);
             --naranja: orange;
         }
-        div{
+
+        div {
             width: 80%;
             display: flex;
             flex-flow: wrap;
@@ -20,97 +23,110 @@
             margin: auto;
             padding: 50px;
             gap: 50px;
-            input{
+
+            input {
                 border: 1px solid var(--azulea);
                 padding: 10px 20px;
                 flex: 2;
                 font-size: 1.2rem;
                 outline: none;
             }
-            input:focus{
+
+            input:focus {
                 background-color: var(--naranja);
                 border: 1px solid var(--naranja);
             }
-            button{
+
+            button {
                 border: none;
                 background-color: rgb(255, 165, 0);
                 color: white;
                 flex: 1
-                
             }
-            ul{
+
+            ul {
                 min-width: 100%;
                 list-style: none;
-                li{
+
+                li {
                     margin: 20px 0;
                     border-bottom: 1px solid var(--azulea);
                 }
             }
 
         }
-        button{
-            cursor : pointer;
+
+        button {
+            cursor: pointer;
         }
     </style>
 </head>
+
 <body>
+
     <div class="tareas">
         <input type="text" placeholder="Añadir tarea">
         <button>Agregar tarea</button>
-        <!-- <ul>
-            <li>Tarea1</li>
-            <li>Tarea2</li>
-        </ul> -->
     </div>
+
     <script>
-        const tareaInput = document.querySelector('input');
-        const boton = document.querySelector('button');
+        // Elementos
+        const tareaInput = document.querySelector('.tareas input');
+        const boton = document.querySelector('.tareas button');
         const ul = document.createElement("ul");
-        
-        const tasks =JSON.parse(localStorage.getItem("tarea")) || [];
 
-        //AÑADIR LAS TAREAS AL TASKS
-        function tareasAdd(tarea){  
-           
-            const li = document.createElement("li");
-                    li.textContent = tarea;
-                    ul.append(li);
-                    tareaInput.value="";
-                    tareaInput.focus();  
-            tasks.push(tarea);
-        }
-        
-        //GUARDARLOS EN EL TASKS
-        function almacenarTareas(tarea) {
-            localStorage.setItem("tarea",tasks);
-        }
-        //MOSTRARLO
-        function mostrarTareas(tarea) {
-            localStorage.getItem("tarea",tasks);
-        };
+        // Obtener tareas desde localStorage al cargar la página
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
+        document.addEventListener("DOMContentLoaded", () => {
 
-        document.addEventListener("DOMContentLoaded",() =>{
-            boton.addEventListener("click",() => {
-                let tarea = tareaInput.value.trim() != "" ? tareaInput.value: false
-                console.log(tarea);
-                boton.parentElement.append(ul);
+            boton.parentElement.append(ul);// Agregar la lista de tareas ya existentes al contenedor
+
+            tasks.forEach(tarea => mostrarTareas(tarea));// Mostrar las tareas almacenadas al cargar
+
+            // Agregar evento para el botón de añadir tarea
+            boton.addEventListener("click", () => {
+                let tarea = tareaInput.value.trim();
                 if (tarea) {
-                    
-                    mostrarTareas(tarea);
-                    tareasAdd(tarea);
-                    almacenarTareas(tarea);
-
+                    mostrarTareas(tarea); // Mostrar en la lista
+                    tareasAdd(tarea); // Guardar 
+                    tareaInput.value = ''; // Limpiar 
                 }
-
             });
-            boton.parentElement.append(ul);
-
         });
 
-    
+        // Función para mostrar una tarea en la lista
+        function mostrarTareas(tarea) {
+            const li = document.createElement("li");
+            li.textContent = tarea;
+
+            // Botón para eliminar la tarea
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Eliminar";
+            deleteBtn.addEventListener("click", () => {
+                li.remove();
+                eliminarTarea(tarea);
+            });
+
+            li.appendChild(deleteBtn);
+            ul.appendChild(li);
+        }
+
+        // Función para añadir una tarea al localStorage
+        function tareasAdd(tarea) {
+            tasks.push(tarea);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        // Función para eliminar una tarea de localStorage
+        function eliminarTarea(tarea) {
+            const index = tasks.indexOf(tarea);
+            if (index > -1) {
+                tasks.splice(index, 1);
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+        }
     </script>
-
-
 </body>
+
 </html>
