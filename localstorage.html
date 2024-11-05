@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        :root{
+            --azulea: rgb(14 32 249);
+            --naranja: orange;
+        }
+        div{
+            width: 80%;
+            display: flex;
+            flex-flow: wrap;
+            border: 1px solid black;
+            margin: auto;
+            padding: 50px;
+            gap: 50px;
+            input{
+                border: 1px solid var(--azulea);
+                padding: 10px 20px;
+                flex: 2;
+                font-size: 1.2rem;
+                outline: none;
+            }
+            input:focus{
+                background-color: var(--naranja);
+                border: 1px solid var(--naranja);
+            }
+            button{
+                border: none;
+                background-color: rgb(255, 165, 0);
+                color: white;
+                flex: 1
+                
+            }
+            ul{
+                min-width: 100%;
+                list-style: none;
+                li{
+                    margin: 20px 0;
+                    border-bottom: 1px solid var(--azulea);
+                }
+            }
+
+        }
+        button{
+            cursor : pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="tareas">
+        <input type="text" placeholder="Añadir tarea">
+        <button>Agregar tarea</button>
+        <!-- <ul>
+            <li>Tarea1</li>
+            <li>Tarea2</li>
+        </ul> -->
+    </div>
+    <script>
+        const tareaInput = document.querySelector('input');
+        const boton = document.querySelector('button');
+        const ul = document.createElement("ul");
+        
+        const tasks =JSON.parse(localStorage.getItem("tarea")) || [];
+
+        //AÑADIR LAS TAREAS AL TASKS
+        function tareasAdd(tarea){  
+           
+            const li = document.createElement("li");
+                    li.textContent = tarea;
+                    ul.append(li);
+                    tareaInput.value="";
+                    tareaInput.focus();  
+            tasks.push(tarea);
+        }
+        
+        //GUARDARLOS EN EL TASKS
+        function almacenarTareas(tarea) {
+            localStorage.setItem("tarea",tasks);
+        }
+        //MOSTRARLO
+        function mostrarTareas(tarea) {
+            localStorage.getItem("tarea",tasks);
+        };
+
+
+        document.addEventListener("DOMContentLoaded",() =>{
+            boton.addEventListener("click",() => {
+                let tarea = tareaInput.value.trim() != "" ? tareaInput.value: false
+                console.log(tarea);
+                boton.parentElement.append(ul);
+                if (tarea) {
+                    
+                    mostrarTareas(tarea);
+                    tareasAdd(tarea);
+                    almacenarTareas(tarea);
+
+                }
+
+            });
+            boton.parentElement.append(ul);
+
+        });
+
+    
+    </script>
+
+
+</body>
+</html>
