@@ -80,7 +80,7 @@
 
         document.addEventListener("DOMContentLoaded", () => {
 
-            boton.parentElement.append(ul);// Agregar la lista de tareas ya existentes al contenedor
+            boton.parentElement.append(ul);// Agregar la lista de tareas /*1*/
 
             tasks.forEach(tarea => mostrarTareas(tarea));// Mostrar las tareas almacenadas al cargar
 
@@ -88,9 +88,10 @@
             boton.addEventListener("click", () => {
                 let tarea = tareaInput.value.trim();
                 if (tarea) {
-                    mostrarTareas(tarea); // Mostrar en la lista
+                    mostrarTareas(tarea); // Mostrar la lista
                     tareasAdd(tarea); // Guardar 
                     tareaInput.value = ''; // Limpiar 
+                    tareaInput.focus(); //Seguir escribiendo
                 }
             });
         });
@@ -99,6 +100,8 @@
         function mostrarTareas(tarea) {
             const li = document.createElement("li");
             li.textContent = tarea;
+
+            /////////////////////////////////////////////////////////////////////////*1*//////////////////////////////////////////////////////////////////////////////////////
 
             // Botón para eliminar la tarea
             const deleteB = document.createElement("button");
